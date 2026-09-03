@@ -15,7 +15,10 @@ async function bootstrap() {
   const alowList = getCorsAllowList();
 
   app.enableCors({
-    origin: (requestOrigin: string, callback) => {
+    origin: (
+      requestOrigin: string | undefined,
+      callback: (error: Error | null, allow?: boolean) => void,
+    ) => {
       if (!requestOrigin) {
         callback(null, true);
         return;
