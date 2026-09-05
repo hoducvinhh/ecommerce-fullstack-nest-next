@@ -5,11 +5,17 @@ export const envSchema = z.object({
         .enum(['development', 'production', 'test'])
         .default('development'),
     PORT: z.coerce.number().default(8080),
+
+    //database configuration
     DB_HOST: z.string().min(1).default('localhost'),
     DB_PORT: z.coerce.number().default(5432),
     DB_USERNAME: z.string().min(1).default('postgres'),
     DB_PASSWORD: z.string().min(1).default('password'),
     DB_NAME: z.string().min(1).default('ecommerce'),
+
+    //throttler configuration
+    THROTTLER_TTL_MS: z.coerce.number().default(1000),
+    THROTTLER_LIMIT_MS: z.coerce.number().default(60),
 });
 
 
