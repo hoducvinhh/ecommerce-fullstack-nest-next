@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { PinoLoggerModule } from './config/logger/logger.module';
 import { AppThrottlerModule } from './config/throttler/throttler.module';
 import { APP_GUARD } from '@nestjs/core';

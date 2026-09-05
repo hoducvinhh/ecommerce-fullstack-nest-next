@@ -22,7 +22,7 @@ async function bootstrap() {
   const config = app.get(ConfigService);
   const logger = app.get(Logger);
 
-  const alowList = getCorsAllowList();
+  const allowList = getCorsAllowList(config);
 
   app.enableCors({
     origin: (
@@ -34,7 +34,7 @@ async function bootstrap() {
         return;
       }
 
-      if (alowList.includes(requestOrigin)) {
+      if (allowList.includes(requestOrigin)) {
         callback(null, true);
         return;
       }

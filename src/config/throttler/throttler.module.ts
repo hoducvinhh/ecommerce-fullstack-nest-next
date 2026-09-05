@@ -6,12 +6,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 @Module({
     imports: [
         ThrottlerModule.forRootAsync({
-            import: [ConfigModule.forFeature(throttlerConfig)],
+            imports: [ConfigModule.forFeature(throttlerConfig)],
             inject: [ConfigService],
-            useFactory: () => (
-                config: ConfigService) => {
-
-                const cfg = config.getOrThrow<{ ttl: number; limit: number }>('THROTTLER_CONFIG');
+            useFactory: (config: ConfigService) => {
+                const cfg = config.getOrThrow<{ ttl: number; limit: number }>('throttler');
                 return {
                     throttlers: [{
                         name: 'default',
@@ -19,7 +17,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
                         limit: cfg.limit
                     }]
                 };
-            }
+            },
         }),
     ],
     exports: [ThrottlerModule],

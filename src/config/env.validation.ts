@@ -5,6 +5,8 @@ export const envSchema = z.object({
         .enum(['development', 'production', 'test'])
         .default('development'),
     PORT: z.coerce.number().default(8080),
+    CLIENT_URL: z.string().optional(),
+    CORS_OTHER_URL: z.string().optional(),
 
     //database configuration
     DB_HOST: z.string().min(1).default('localhost'),
