@@ -1,4 +1,8 @@
 {
     "editor.renderWhitespace": "all",
-    "editor.renderControlCharacters": false
+    "editor.renderControlCharacters": false,
+    "eslint.enable": false,
+    "eslint.validate": [],
+    "typescript.validate.enable": false,
+    "javascript.validate.enable": false
 }
