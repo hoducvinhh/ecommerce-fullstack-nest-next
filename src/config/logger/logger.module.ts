@@ -22,7 +22,12 @@ import { LoggerModule } from 'nestjs-pino';
                         },
                     } : undefined,
 
-                    // todo: add requestId to log context
+                    genReqId: (req, res) => {
+                        const existing = req.headers['x-request-id'];
+                        const id = existing ? randomUUID();
+                        res.setHeader('x-request-id', id);
+                        return id;
+                    }         
 
                     redact: {
                         paths: ['req.headers.authorization', 'req.headers.cookie', 'req.headers.password', 'res.headers["set-cookie"]'],

@@ -19,7 +19,12 @@ const envFile = process.env.NODE_ENV === 'production' ? [".env.prod", '.env'] : 
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard,
+
     },
   ],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(CorrelationIdMiddleware).forRoutes('*');
+  }
+}
