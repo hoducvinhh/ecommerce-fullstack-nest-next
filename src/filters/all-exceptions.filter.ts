@@ -1,6 +1,9 @@
 import { ExceptionFilter } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
-
+import { Request, Response } formimportimportimport { buildApiErrorPayLoad } from 'src/helpers/api-error-response';
+{ extractFromHttpExceptionBody } from 'src/helpers/api-error-response';
+{ buildApiErrorPayLoad } from 'src/helpers/api-error-response';
+'express'
 @Catch()
 @Injectable()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -18,6 +21,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
             const res = httpCtx.getResponse<Response>();
             const req = httpCtx.getRequest<Request>();
         }
+
         const ctx = {
             requestId: (req.headers['x-request-id'] as string) || '',
             path: req.url,
@@ -25,24 +29,27 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
         // http exception( not found, bad request, etc)
         if (exception instanceof HttpException) {
-            const status = exception.getStatus();
-            const resBody = exception.getResponse();
-            if (typeof resBody === 'string') {
-                return res.status(status).json({
-                    statusCode: status,
-                    message: resBody,
-                    ...ctx
-                });
-            }
-            if (typeof resBody === 'object' && resBody !== null) {
-                return res.status(status).json({
-                    statusCode: status,
-                    ...resBody,
-                    ...ctx
-                });
+            const statusCode = exception.getStatus();
+            const rawErrorResponse = exception.getResponse();
+
+            if (typeof rawErrorResponse === 'string') {
+                return res.status(statusCode).json(
+                    buildApiErrorPayLoad(statusCode, rawErrorResponse, undefined, ctx),
+                );
             }
 
-            //todo: build error payload
+            // resBody is an object 
+            const { message, error } = extractFromHttpExceptionBody{
+                rawErrorResponse,
+                exception.message,
+            };
+
+            res.status(StatusCode)
+                .json(buildApiErrorPayLoad(statusCode, message, error, ctx));
+
+            return;
+
+
         }
 
         //unknown exception (database, etc)
@@ -52,8 +59,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
                 requestId: ctx.requestId,
                 path: ctx.path,
                 error: exception instanceof Error ? exception.message : 'Unknown error',
-                stack: exception instanceof Error ? exception.stack : 'No stack trace',
-            }
+                stack: exception instanceof Error ? exception.stack : undefined,
+            
         );
 
         //todo: build error payload
