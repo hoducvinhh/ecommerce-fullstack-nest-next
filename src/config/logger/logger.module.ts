@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { IncomingMessage } from 'node:http';
 import { LoggerModule } from 'nestjs-pino';
+import { CORRELATION_ID_HEADER } from 'src/constants/correlation-id';
+
 
 @Module({
     imports: [LoggerModule.forRootAsync({
@@ -23,9 +25,10 @@ import { LoggerModule } from 'nestjs-pino';
                     } : undefined,
 
                     genReqId: (req, res) => {
-                        const existing = req.headers['x-request-id'];
+                        const existing = req.headers['CORRELATION_ID_HEADER'];
                         const id = existing ? randomUUID();
-                        res.setHeader('x-request-id', id);
+                        req.headers['CORRELATION_ID_HEADER'] = id;
+                        res.setHeader('CORRELATION_ID_HEADER', id);
                         return id;
                     }         
 

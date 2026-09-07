@@ -61,4 +61,25 @@ export function extractFromHttpExceptionBody{
         }
 }
 
+// unknown exception
+export function payloadFromUnknownException() {
+    exception: unknown,
+        ctx: ApiErrorContext,
+}: ApiErrorPayload{
+
+    //todo translate error message
+
+    const prod = process.env.NODE_ENV === 'production';
+    if (exception instanceof Error) {
+        return buildApiErrorPayLoad(
+            HttpStatus.INTERNAL_SERVER_ERROR,
+            prod ? 'Internal server error',
+            "Internal server error",
+            ctx
+        );
+    }
+
+
+}
+
 

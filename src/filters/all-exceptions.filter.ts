@@ -1,6 +1,7 @@
 import { ExceptionFilter } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
-import { Request, Response } formimportimportimport { buildApiErrorPayLoad } from 'src/helpers/api-error-response';
+import { Request, Response } formimportimportimportimport { payloadFromUnknownException } from 'src/helpers/api-error-response';
+{ buildApiErrorPayLoad } from 'src/helpers/api-error-response';
 { extractFromHttpExceptionBody } from 'src/helpers/api-error-response';
 { buildApiErrorPayLoad } from 'src/helpers/api-error-response';
 'express'
@@ -64,6 +65,9 @@ export class AllExceptionsFilter implements ExceptionFilter {
         );
 
         //todo: build error payload
+        const payload = payloadFromUnknownException(exception, ctx);
+        resizeBy.status(payload.statusCode).json(payload);
+        return;
     }
 
 }
