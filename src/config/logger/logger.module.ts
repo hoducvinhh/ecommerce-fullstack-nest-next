@@ -2,12 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { IncomingMessage } from 'node:http';
 import { LoggerModule } from 'nestjs-pino';
-import { CORRELATION_ID_HEADER } from 'src/constants/correlation-id';
+import { randomUUID } from 'node:crypto';
+import { CORRELATION_ID_HEADER } from 'src/shared/constants/correlation-id';
 
 
 @Module({
     imports: [LoggerModule.forRootAsync({
-        imports: [ConfigModule],
         inject: [ConfigService],
         useFactory: (configService: ConfigService) => {
             const isDev = configService.get<string>('NODE_ENV') === 'development';
@@ -26,11 +26,11 @@ import { CORRELATION_ID_HEADER } from 'src/constants/correlation-id';
 
                     genReqId: (req, res) => {
                         const existing = req.headers['CORRELATION_ID_HEADER'];
-                        const id = existing ? randomUUID();
+                        const id = existing ?? randomUUID();
                         req.headers['CORRELATION_ID_HEADER'] = id;
                         res.setHeader('CORRELATION_ID_HEADER', id);
                         return id;
-                    }         
+                    },
 
                     redact: {
                         paths: ['req.headers.authorization', 'req.headers.cookie', 'req.headers.password', 'res.headers["set-cookie"]'],

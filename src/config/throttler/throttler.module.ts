@@ -1,27 +1,25 @@
 import { Module } from '@nestjs/common';
-import { THROTTLEModule } from '@nestjs/THROTTLE';
-import THROTTLEConfig from './THROTTLE.config';
+import { ThrottlerModule } from '@nestjs/throttler';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
     imports: [
-        THROTTLEModule.forRootAsync({
-            imports: [ConfigModule.forFeature(THROTTLEConfig)],
+        ThrottlerModule.forRootAsync({
             inject: [ConfigService],
             useFactory: (config: ConfigService) => {
                 const cfg = config.getOrThrow<{ ttl: number; limit: number }>('THROTTLE');
                 return {
-                    THROTTLEs: [{
+                    throttlers: [{
                         name: 'default',
                         ttl: cfg.ttl,
                         limit: cfg.limit
-                    }]
+                    }],
                 };
             },
         }),
     ],
-    exports: [THROTTLEModule],
+    exports: [ThrottlerModule],
 })
-export class AppTHROTTLEModule {
+export class AppThrottlerModule {
 
 }
