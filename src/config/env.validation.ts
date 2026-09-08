@@ -17,7 +17,7 @@ export const envSchema = z.object({
 
     //throttler configuration
     THROTTLER_TTL_MS: z.coerce.number().default(1000),
-    THROTTLER_LIMIT_MS: z.coerce.number().default(60),
+    THROTTLER_LIMIT: z.coerce.number().default(60),
 });
 
 
