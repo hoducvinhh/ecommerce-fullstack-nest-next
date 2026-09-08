@@ -15,9 +15,9 @@ export const envSchema = z.object({
     DB_PASSWORD: z.string().min(1).default('password'),
     DB_NAME: z.string().min(1).default('ecommerce'),
 
-    //throttler configuration
-    THROTTLER_TTL_MS: z.coerce.number().default(1000),
-    THROTTLER_LIMIT: z.coerce.number().default(60),
+    //THROTTLE configuration
+    THROTTLE_TTL_MS: z.coerce.number().default(1000),
+    THROTTLE_LIMIT: z.coerce.number().default(60),
 });
 
 

@@ -1,17 +1,17 @@
 import { Module } from '@nestjs/common';
-import { ThrottlerModule } from '@nestjs/throttler';
-import throttlerConfig from './throttler.config';
+import { THROTTLEModule } from '@nestjs/THROTTLE';
+import THROTTLEConfig from './THROTTLE.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
     imports: [
-        ThrottlerModule.forRootAsync({
-            imports: [ConfigModule.forFeature(throttlerConfig)],
+        THROTTLEModule.forRootAsync({
+            imports: [ConfigModule.forFeature(THROTTLEConfig)],
             inject: [ConfigService],
             useFactory: (config: ConfigService) => {
-                const cfg = config.getOrThrow<{ ttl: number; limit: number }>('throttler');
+                const cfg = config.getOrThrow<{ ttl: number; limit: number }>('THROTTLE');
                 return {
-                    throttlers: [{
+                    THROTTLEs: [{
                         name: 'default',
                         ttl: cfg.ttl,
                         limit: cfg.limit
@@ -20,8 +20,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
             },
         }),
     ],
-    exports: [ThrottlerModule],
+    exports: [THROTTLEModule],
 })
-export class AppThrottlerModule {
+export class AppTHROTTLEModule {
 
 }

@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { PinoLoggerModule } from './config/logger/logger.module';
-import { AppThrottlerModule } from './config/throttler/throttler.module';
+import { AppTHROTTLEModule } from './config/THROTTLE/THROTTLE.module';
 import { APP_GUARD, APP_FILTER } from '@nestjs/core';
-import { ThrottlerGuard } from '@nestjs/throttler';
+import { THROTTLEGuard } from '@nestjs/THROTTLE';
 import { validateEnv } from './config/env.validation';
 import { AllExceptionsFilter } from './filters/all-exceptions.filter';
 
@@ -15,11 +15,11 @@ const envFile = process.env.NODE_ENV === 'production' ? [".env.prod", '.env'] : 
     cache: true,
     isGlobal: true,
     validate: validateEnv,
-  }), PinoLoggerModule, AppThrottlerModule],
+  }), PinoLoggerModule, AppTHROTTLEModule],
   providers: [
     {
       provide: APP_GUARD,
-      useClass: ThrottlerGuard,
+      useClass: THROTTLEGuard,
     },
     {
       provide: APP_FILTER,
