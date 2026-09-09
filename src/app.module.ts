@@ -10,6 +10,8 @@ import { CorrelationIdMiddleware } from './shared/middlewares/correlation-id.mid
 import { allConfigs } from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './config/database/typeorm-config.service';
+import { UserModule } from './apps/user/user.module';
+import { AuthModule } from './apps/auth/auth.module';
 
 const envFile = process.env.NODE_ENV === 'production' ? [".env.prod", '.env'] : [".env.dev", '.env'];
 
@@ -24,7 +26,7 @@ const envFile = process.env.NODE_ENV === 'production' ? [".env.prod", '.env'] : 
     {
       useClass: TypeOrmConfigService,
     }
-  )],
+  ), UserModule, AuthModule],
   providers: [
     {
       provide: APP_GUARD,
