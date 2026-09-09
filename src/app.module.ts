@@ -9,6 +9,7 @@ import { AllExceptionsFilter } from './core/filters/all-exceptions.filter';
 import { CorrelationIdMiddleware } from './shared/middlewares/correlation-id.middlewares';
 import { allConfigs } from './config/configuration';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmConfigService } from './config/database/typeorm-config.service';
 
 const envFile = process.env.NODE_ENV === 'production' ? [".env.prod", '.env'] : [".env.dev", '.env'];
 
@@ -19,7 +20,11 @@ const envFile = process.env.NODE_ENV === 'production' ? [".env.prod", '.env'] : 
     isGlobal: true,
     validate: validateEnv,
     load: allConfigs,
-  }), PinoLoggerModule, AppThrottlerModule, TypeOrmModule.forRoot()],
+  }), PinoLoggerModule, AppThrottlerModule, TypeOrmModule.forRootAsync(
+    {
+      useClass: TypeOrmConfigService,
+    }
+  )],
   providers: [
     {
       provide: APP_GUARD,
