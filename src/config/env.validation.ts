@@ -9,11 +9,11 @@ export const envSchema = z.object({
     CORS_OTHER_URL: z.string().optional(),
 
     //database configuration
-    DB_HOST: z.string().min(1).default('localhost'),
-    DB_PORT: z.coerce.number().default(5432),
-    DB_USERNAME: z.string().min(1).default('postgres'),
-    DB_PASSWORD: z.string().min(1).default('password'),
-    DB_NAME: z.string().min(1).default('ecommerce'),
+    DB_HOST: z.string().min(1).trim(),
+    DB_PORT: z.coerce.number().int().min(1).max(65535),
+    DB_USERNAME: z.string().min(1).trim(),
+    DB_PASSWORD: z.string().min(1).trim(),
+    DB_NAME: z.string().min(1).trim(),
 
     //THROTTLE configuration
     THROTTLE_TTL_MS: z.coerce.number().default(1000),
