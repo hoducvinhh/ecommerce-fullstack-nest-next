@@ -13,6 +13,7 @@ import { TypeOrmConfigService } from './config/database/typeorm-config.service';
 import { UserModule } from './apps/user/user.module';
 import { AuthModule } from './apps/auth/auth.module';
 import { AddressModule } from './apps/address/address.module';
+import { CategoryModule } from './apps/category/category.module';
 
 const envFile = process.env.NODE_ENV === 'production' ? [".env.prod", '.env'] : [".env.dev", '.env'];
 
@@ -27,7 +28,7 @@ const envFile = process.env.NODE_ENV === 'production' ? [".env.prod", '.env'] : 
     {
       useClass: TypeOrmConfigService,
     }
-  ), UserModule, AuthModule, AddressModule],
+  ), UserModule, AuthModule, AddressModule, CategoryModule],
   providers: [
     {
       provide: APP_GUARD,
