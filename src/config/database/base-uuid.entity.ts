@@ -14,9 +14,9 @@ export abstract class BaseUuidEntity {
         }
     }
 
-    @CreateDateColumn()
+    @CreateDateColumn({ type: 'timestamptz' })
     createAt: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ type: 'timestamptz' })
     updateAt: Date;
 }
