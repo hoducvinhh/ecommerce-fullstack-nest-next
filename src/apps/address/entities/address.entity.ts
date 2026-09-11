@@ -3,7 +3,7 @@ import { BaseUuidEntity } from "src/config/database/base-uuid.entity";
 import { Column, DeleteDateColumn, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 
 @Entity()
-@Index('user_default_address', ['user_id'], {
+@Index('user_default_address', ['userId'], {
     unique: true,
     where: '"is_default" = true AND "delete_at" IS NULL'
 })
@@ -11,10 +11,10 @@ export class Address extends BaseUuidEntity {
 
     @Index()
     @Column({ type: 'uuid' })
-    user_id: string;
+    userId: string;
 
     @Column({ type: 'varchar', length: 100 })
-    full_name: string;
+    fullName: string;
 
     @Column({ type: 'varchar', length: 20 })
     phone: string;
